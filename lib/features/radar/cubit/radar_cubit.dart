@@ -1,0 +1,25 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../domain/usecases/fetch_radar_data_use_case.dart';
+import 'radar_state.dart';
+
+class RadarCubit extends Cubit<RadarState> {
+  final FetchRadarDataUseCase fetchRadarDataUseCase;
+
+  RadarCubit(this.fetchRadarDataUseCase) : super(RadarInitial());
+
+  Future<void> fetchRadarData() async {
+    emit(RadarLoading());
+
+    try {
+      final data = await fetchRadarDataUseCase();
+
+      if (data != null) {
+        emit(RadarLoaded(data));
+      } else {
+        emit(RadarError('Failed to load radar data'));
+      }
+    } catch (e) {
+      emit(RadarError(e.toString()));
+    }
+  }
+}
