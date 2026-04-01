@@ -12,6 +12,8 @@ import 'package:sahab/features/search/domain/entities/location_suggestion.dart';
 import 'package:sahab/features/weather/presentation/widgets/glass_card.dart';
 import 'package:sahab/generated/l10n.dart';
 
+import '../../../../core/helpers/spacing.dart';
+
 class SearchView extends StatefulWidget {
   static const String routeName = '/search-view';
 
@@ -55,11 +57,11 @@ class _SearchViewState extends State<SearchView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20),
+                      vGap(20),
                       Center(
                         child: Text(s.search, style: context.font24PrimaryBold),
                       ),
-                      const SizedBox(height: 20),
+                      vGap(20),
                       GlassCard(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -80,7 +82,7 @@ class _SearchViewState extends State<SearchView> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      vGap(20),
                       Expanded(
                         child: BlocBuilder<SearchCubit, SearchState>(
                           builder: (context, state) {
@@ -103,7 +105,7 @@ class _SearchViewState extends State<SearchView> {
                                       'Recent Searches',
                                       style: context.font16PrimaryMedium,
                                     ),
-                                    const SizedBox(height: 15),
+                                    vGap(15),
                                     Expanded(
                                       child: ListView.builder(
                                         itemCount: cities.length,
@@ -196,7 +198,7 @@ class _SearchViewState extends State<SearchView> {
           child: Row(
             children: [
               Icon(Icons.location_on_outlined, color: context.primaryColor),
-              const SizedBox(width: 12),
+              hGap(12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,7 +240,7 @@ class _SearchViewState extends State<SearchView> {
           child: Row(
             children: [
               Icon(Icons.history, color: context.labelColor, size: 20),
-              const SizedBox(width: 12),
+              hGap(12),
               Text(city, style: context.font16PrimaryMedium),
               const Spacer(),
               Icon(
