@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sahab/core/cubit/connection/connection_cubit.dart';
 import 'package:sahab/core/helpers/app_assets.dart';
+import 'package:sahab/core/helpers/spacing.dart';
 import 'package:sahab/core/theme/app_colors.dart';
 import 'package:sahab/core/helpers/extensions.dart';
 import 'package:lottie/lottie.dart';
@@ -66,13 +67,13 @@ class NoConnectionOverlay extends StatelessWidget {
                               animate: true,
                             ),
                           ),
-                          SizedBox(height: 24.h),
+                          vGap(24),
                           Text(
                             'لا يوجد اتصال بالإنترنت',
                             style: context.font18PrimaryBold,
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 12.h),
+                          vGap(12),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.w),
                             child: Text(
@@ -81,7 +82,7 @@ class NoConnectionOverlay extends StatelessWidget {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          SizedBox(height: 20.h),
+                          vGap(20),
                           // Loading indicator
                           Container(
                             padding: EdgeInsets.all(8.w),
