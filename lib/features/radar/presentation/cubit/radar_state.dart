@@ -1,4 +1,4 @@
-import '../../data/models/radar_data_response_model.dart';
+import '../../domain/entities/radar_data.dart';
 
 abstract class RadarState {}
 
@@ -7,7 +7,7 @@ class RadarInitial extends RadarState {}
 class RadarLoading extends RadarState {}
 
 class RadarLoaded extends RadarState {
-  final RadarDataResponseModel data;
+  final RadarDataEntity data;
 
   RadarLoaded(this.data);
 }
