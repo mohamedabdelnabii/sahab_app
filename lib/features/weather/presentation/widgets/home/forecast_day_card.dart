@@ -5,6 +5,8 @@ import 'package:sahab/core/helpers/extensions.dart';
 import 'package:sahab/features/weather/domain/entities/weather.dart';
 import 'package:sahab/features/weather/presentation/screens/forecast_detail_screen.dart';
 
+import '../../../../../core/helpers/spacing.dart';
+
 class ForecastDayCard extends StatelessWidget {
   final ForecastDayInfo day;
   final String cityName;
@@ -60,7 +62,7 @@ class ForecastDayCard extends StatelessWidget {
                       size: 20,
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  hGap(8),
                   Expanded(
                     child: Text(
                       day.condition.text,
@@ -82,7 +84,7 @@ class ForecastDayCard extends StatelessWidget {
                     '${(isCelsius ? day.maxtempC : day.maxtempF).round()}°',
                     style: context.font14PrimarySemiBoldSpacing.copyWith(letterSpacing: 0),
                   ),
-                  const SizedBox(width: 8),
+                  hGap(8),
                   Text(
                     '${(isCelsius ? day.mintempC : day.mintempF).round()}°',
                     style: context.font14Primary70Spacing.copyWith(letterSpacing: 0),
