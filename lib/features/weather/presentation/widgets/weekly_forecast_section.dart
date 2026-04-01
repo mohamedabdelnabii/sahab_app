@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sahab/core/helpers/extensions.dart';
 import 'package:sahab/features/weather/presentation/widgets/glass_card.dart';
 
+import '../../../../core/helpers/spacing.dart';
+
 class DailyForecast {
   final String day;
   final double minTemp;
@@ -35,7 +37,7 @@ class WeeklyForecastSection extends StatelessWidget {
                 size: 18,
                 color: labelColor,
               ),
-              const SizedBox(width: 8),
+              hGap(8),
               Text(
                 '7-DAY FORECAST',
                 style: context.font12Primary54MediumSpacing,
@@ -70,7 +72,7 @@ class WeeklyForecastSection extends StatelessWidget {
                             color: labelColor,
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        hGap(10),
                         Container(
                           width: 60,
                           height: 4,
@@ -81,7 +83,7 @@ class WeeklyForecastSection extends StatelessWidget {
                             borderRadius: BorderRadius.circular(2),
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        hGap(10),
                         Text(
                           '${day.maxTemp.round()}°',
                           style: context.font16PrimaryMedium,
