@@ -11,6 +11,8 @@ import 'package:sahab/features/search/presentation/screens/search_view.dart';
 import 'package:sahab/features/weather/presentation/widgets/glass_card.dart';
 import 'package:sahab/generated/l10n.dart';
 
+import '../../../../core/helpers/spacing.dart';
+
 class SettingsView extends StatelessWidget {
   static const String routeName = '/setting-view';
 
@@ -29,13 +31,13 @@ class SettingsView extends StatelessWidget {
               return ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 children: [
-                  const SizedBox(height: 20),
+                  vGap(20),
                   Text(
                     s.settings,
                     style: context.font24PrimaryBold,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 30),
+                  vGap(30),
                   _buildSectionTitle(context, s.location),
                   _buildSettingsCard(context, [
                     BlocBuilder<WeatherCubit, WeatherState>(
@@ -54,7 +56,7 @@ class SettingsView extends StatelessWidget {
                       },
                     ),
                   ]),
-                  const SizedBox(height: 25),
+                  vGap(25),
                   _buildSectionTitle(context, s.units),
                   _buildSettingsCard(context, [
                     _buildSwitchTile(
@@ -80,7 +82,7 @@ class SettingsView extends StatelessWidget {
                       () {},
                     ),
                   ]),
-                  const SizedBox(height: 25),
+                  vGap(25),
                   _buildSectionTitle(context, s.preferences),
                   _buildSettingsCard(context, [
                     _buildSettingTile(
@@ -115,7 +117,7 @@ class SettingsView extends StatelessWidget {
                       (val) => cubit.toggleTheme(),
                     ),
                   ]),
-                  const SizedBox(height: 25),
+                  vGap(25),
                   _buildSectionTitle(context, s.about),
                   _buildSettingsCard(context, [
                     _buildSettingTile(
@@ -137,7 +139,7 @@ class SettingsView extends StatelessWidget {
                       () => context.push(PrivacyView.routeName),
                     ),
                   ]),
-                  const SizedBox(height: 100),
+                  vGap(100),
                 ],
               );
             },
@@ -217,7 +219,7 @@ class SettingsView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(trailing, style: TextStyle(color: labelColor)),
-          const SizedBox(width: 8),
+          hGap(8),
           Icon(
             Icons.chevron_right,
             color: onSurface.withValues(alpha: 0.24),
