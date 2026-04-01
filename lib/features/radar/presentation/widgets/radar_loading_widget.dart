@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sahab/core/helpers/spacing.dart';
 import 'package:sahab/generated/l10n.dart';
 
 class RadarLoadingWidget extends StatelessWidget {
@@ -47,7 +48,7 @@ class RadarErrorWidget extends StatelessWidget {
               size: 32,
               color: onSurface.withValues(alpha: 0.5),
             ),
-            const SizedBox(height: 8),
+            vGap( 8),
             Text(
               error,
               style: TextStyle(
@@ -57,7 +58,7 @@ class RadarErrorWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             if (onRetry != null) ...[
-              const SizedBox(height: 8),
+              vGap(8),
               TextButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh, size: 18),
