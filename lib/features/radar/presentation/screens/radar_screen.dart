@@ -5,7 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:sahab/core/di/injection_container.dart';
 import 'package:sahab/core/helpers/extensions.dart';
 import 'package:sahab/core/theme/app_decorations.dart';
-import 'package:sahab/features/radar/data/models/radar_frame_model.dart';
+import 'package:sahab/features/radar/domain/entities/radar_frame.dart';
 import 'package:sahab/features/radar/presentation/cubit/radar_cubit.dart';
 import 'package:sahab/features/radar/presentation/cubit/radar_state.dart';
 import 'package:sahab/features/radar/presentation/widgets/radar_controls_widget.dart';
@@ -14,6 +14,8 @@ import 'package:sahab/features/radar/presentation/widgets/radar_loading_widget.d
 import 'package:sahab/features/radar/presentation/widgets/radar_map_widget.dart';
 import 'package:sahab/generated/l10n.dart';
 import 'package:sahab/features/weather/presentation/cubit/weather_cubit.dart';
+
+import '../../../../core/helpers/spacing.dart';
 
 class RadarScreen extends StatelessWidget {
   const RadarScreen({super.key});
@@ -75,11 +77,8 @@ class _RadarScreenContentState extends State<RadarScreenContent> {
     }
   }
 
-  List<RadarFrameModel> _getFrames(RadarLoaded state) {
-    if (_selectedLayer == RadarLayer.clouds) {
-      return state.data.satellite.infrared;
-    }
-    return state.data.radar.allFrames;
+  List<RadarFrameEntity> _getFrames(RadarLoaded state) {
+    return state.data.allRadarFrames;
   }
 
   @override
@@ -109,7 +108,7 @@ class _RadarScreenContentState extends State<RadarScreenContent> {
 
             return BlocBuilder<RadarCubit, RadarState>(
               builder: (context, state) {
-                final frames = state is RadarLoaded ? _getFrames(state) : <RadarFrameModel>[];
+                final frames = state is RadarLoaded ? _getFrames(state) : <RadarFrameEntity>[];
                 
                 return Stack(
                   children: [
@@ -124,7 +123,7 @@ class _RadarScreenContentState extends State<RadarScreenContent> {
                           _buildZoomButton(Icons.add, () {
                             _mapController.move(_mapController.camera.center, _mapController.camera.zoom + 1);
                           }, onSurface),
-                          const SizedBox(height: 12),
+                          vGap(12),
                           _buildZoomButton(Icons.remove, () {
                             _mapController.move(_mapController.camera.center, _mapController.camera.zoom - 1);
                           }, onSurface),
@@ -211,7 +210,7 @@ class _RadarScreenContentState extends State<RadarScreenContent> {
     );
   }
 
-  Widget _buildMap(RadarState state, List<RadarFrameModel> frames, Color primary, Color onSurface, LatLng center, String? cityName, String? temp) {
+  Widget _buildMap(RadarState state, List<RadarFrameEntity> frames, Color primary, Color onSurface, LatLng center, String? cityName, String? temp) {
     final host = state is RadarLoaded ? state.data.host : null;
     final currentFrame = (state is RadarLoaded && frames.isNotEmpty && _currentFrameIndex < frames.length) 
         ? frames[_currentFrameIndex] 
