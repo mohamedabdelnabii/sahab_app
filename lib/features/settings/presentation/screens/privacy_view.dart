@@ -4,6 +4,8 @@ import 'package:sahab/core/theme/app_decorations.dart';
 import 'package:sahab/features/weather/presentation/widgets/glass_card.dart';
 import 'package:sahab/generated/l10n.dart';
 
+import '../../../../core/helpers/spacing.dart';
+
 class PrivacyView extends StatelessWidget {
   static const String routeName = '/privacy';
 
@@ -40,7 +42,7 @@ class PrivacyView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 10),
+                vGap(10),
                 GlassCard(
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -48,7 +50,7 @@ class PrivacyView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(s.privacyPolicy, style: context.font18PrimaryBold),
-                        const SizedBox(height: 16),
+                        vGap(16),
                         Text(
                           s.privacyContent,
                           style: TextStyle(
@@ -61,7 +63,7 @@ class PrivacyView extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                vGap(20),
                 Center(
                   child: Text(
                     s.copyright,
@@ -71,7 +73,7 @@ class PrivacyView extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 40),
+                vGap(40),
               ],
             ),
           ),
