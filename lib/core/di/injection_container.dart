@@ -27,8 +27,7 @@ import 'package:sahab/features/radar/data/datasource/radar_remote_data_source.da
 import 'package:sahab/features/radar/data/repositories/radar_repository_impl.dart';
 import 'package:sahab/features/radar/domain/repository/radar_repository.dart';
 import 'package:sahab/features/radar/domain/usecases/fetch_radar_data_use_case.dart';
-import 'package:sahab/features/radar/cubit/radar_cubit.dart';
-
+import 'package:sahab/features/radar/presentation/cubit/radar_cubit.dart';
 import '../networking/dio_factory.dart';
 
 final gitIt = GetIt.instance;
@@ -115,24 +114,24 @@ Future<void> setupGetIt() async {
   // Use cases can be added here when needed
 
   //*-------------------------------------- Radar Feature --------------------------------------*
-  // API Service
+// API Service
   gitIt.registerLazySingleton<RadarApiService>(() => RadarApiService(gitIt()));
 
-  // Data Source
+// Data Source
   gitIt.registerLazySingleton<RadarRemoteDataSource>(
-    () => RadarRemoteDataSourceImpl(gitIt()),
+        () => RadarRemoteDataSourceImpl(gitIt()),
   );
 
-  // Repository
+// Repository
   gitIt.registerLazySingleton<RadarRepository>(
-    () => RadarRepositoryImpl(gitIt()),
+        () => RadarRepositoryImpl(gitIt()),
   );
 
-  // Use Cases
+// Use Cases
   gitIt.registerLazySingleton<FetchRadarDataUseCase>(
-    () => FetchRadarDataUseCase(gitIt()),
+        () => FetchRadarDataUseCase(gitIt()),
   );
 
-  // Cubit
+// Cubit
   gitIt.registerFactory<RadarCubit>(() => RadarCubit(gitIt()));
 }
