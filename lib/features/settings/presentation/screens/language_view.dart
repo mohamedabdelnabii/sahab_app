@@ -6,6 +6,8 @@ import 'package:sahab/core/helpers/extensions.dart';
 import 'package:sahab/features/weather/presentation/widgets/glass_card.dart';
 import 'package:sahab/generated/l10n.dart';
 
+import '../../../../core/helpers/spacing.dart';
+
 class LanguageView extends StatelessWidget {
   static const String routeName = '/language';
 
@@ -39,7 +41,7 @@ class LanguageView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 10),
+                vGap(10),
                 GlassCard(
                   child: BlocBuilder<LanguageCubit, LanguageState>(
                     builder: (context, state) {
