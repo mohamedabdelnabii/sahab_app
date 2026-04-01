@@ -1,18 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sahab/features/radar/domain/usecases/fetch_radar_data_use_case.dart';
 import 'package:sahab/features/radar/presentation/cubit/radar_state.dart';
 
-import '../../data/repository/rain_viewer_repository.dart';
-
 class RadarCubit extends Cubit<RadarState> {
-  final RainViewerRepository repository;
+  final FetchRadarDataUseCase fetchRadarDataUseCase;
 
-  RadarCubit(this.repository) : super(RadarInitial());
+  RadarCubit(this.fetchRadarDataUseCase) : super(RadarInitial());
 
   Future<void> fetchRadarData() async {
     emit(RadarLoading());
 
     try {
-      final data = await repository.fetchRadarData();
+      final data = await fetchRadarDataUseCase();
 
       if (data != null) {
         emit(RadarLoaded(data));
