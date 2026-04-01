@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:sahab/core/helpers/spacing.dart';
 import 'package:sahab/core/theme/app_decorations.dart';
-import 'package:sahab/features/radar/data/models/radar_frame_model.dart';
+import 'package:sahab/features/radar/domain/entities/radar_frame.dart';
 import 'radar_controls_widget.dart';
 
 class RadarMapWidget extends StatelessWidget {
-  final RadarFrameModel? currentFrame;
+  final RadarFrameEntity? currentFrame;
   final String? host;
   final LatLng center;
   final MapController mapController;
@@ -29,7 +30,6 @@ class RadarMapWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSatelliteLayer = selectedLayer == RadarLayer.clouds;
 
     return FlutterMap(
       mapController: mapController,
@@ -41,16 +41,6 @@ class RadarMapWidget extends StatelessWidget {
       ),
       children: [
         // Base Map Layer
-        if (isSatelliteLayer) ...[
-          // High-resolution satellite imagery
-          TileLayer(
-            urlTemplate: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-          ),
-          // Add boundaries and labels on top of satellite to make it less "dark" and more readable
-          TileLayer(
-            urlTemplate: 'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
-          ),
-        ] else
           TileLayer(
             urlTemplate: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
             subdomains: const ['a', 'b', 'c', 'd'],
@@ -59,7 +49,7 @@ class RadarMapWidget extends StatelessWidget {
         // Weather Data Overlay Layer
         if (host != null && currentFrame != null)
           TileLayer(
-            urlTemplate: '$host${currentFrame!.path}/256/{z}/{x}/{y}/${isSatelliteLayer ? 1 : 2}/1_1.png',
+            urlTemplate: '$host${currentFrame!.path}/256/{z}/{x}/{y}/ ? 1 : 2}/1_1.png',
           ),
 
         // City Identification Marker
@@ -102,13 +92,13 @@ class RadarMapWidget extends StatelessWidget {
                             ),
                           ),
                           if (temp != null) ...[
-                            const SizedBox(width: 6),
+                            hGap(6),
                             Container(
                               width: 1,
                               height: 12,
                               color: Colors.white24,
                             ),
-                            const SizedBox(width: 6),
+                            hGap(6),
                             Text(
                               '$temp°',
                               style: TextStyle(
@@ -121,7 +111,7 @@ class RadarMapWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                  const SizedBox(height: 6),
+                  vGap(6),
                   // Pulsing Glow Center Point
                   Stack(
                     alignment: Alignment.center,
