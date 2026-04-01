@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sahab/core/helpers/extensions.dart';
 import 'package:sahab/core/theme/app_decorations.dart';
 
+import '../../../../../core/helpers/spacing.dart';
+
 class DetailCard extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -31,7 +33,7 @@ class DetailCard extends StatelessWidget {
           Row(
             children: [
               Icon(icon, size: 14, color: textSecondary),
-              const SizedBox(width: 6),
+              hGap(6),
               Expanded(
                 child: Text(
                   label,
@@ -42,14 +44,14 @@ class DetailCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          vGap(10),
           Text(
             value,
             textDirection: TextDirection.ltr,
             style: context.font24PrimaryLight,
           ),
           if (subtitle != null) ...[
-            const SizedBox(height: 6),
+            vGap(6),
             Text(
               subtitle!,
               textDirection: TextDirection.ltr,
