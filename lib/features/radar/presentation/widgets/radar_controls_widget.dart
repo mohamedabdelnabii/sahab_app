@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sahab/core/helpers/spacing.dart';
 import 'package:sahab/core/theme/app_decorations.dart';
 import 'package:sahab/core/helpers/extensions.dart';
 import 'package:sahab/generated/l10n.dart';
@@ -8,7 +9,6 @@ enum RadarLayer {
   rain,
   wind,
   temperature,
-  clouds,
 }
 
 class RadarControlsWidget extends StatelessWidget {
@@ -58,7 +58,7 @@ class RadarControlsWidget extends StatelessWidget {
               primary: primary,
             ),
 
-            const SizedBox(height: 20),
+            vGap( 20),
 
             // Timeline Slider or Static
             if (currentFrameIndex != null && totalFrames != null && onFrameChanged != null)
@@ -75,7 +75,7 @@ class RadarControlsWidget extends StatelessWidget {
                 primary: primary,
               ),
 
-            const SizedBox(height: 12),
+            vGap(12),
 
             // Time Display
             _TimeDisplay(
@@ -142,15 +142,6 @@ class _LayerSelector extends StatelessWidget {
           onSurface: onSurface,
           primary: primary,
         ),
-        _LayerItem(
-          icon: Icons.cloud_outlined,
-          label: s.clouds,
-          layer: RadarLayer.clouds,
-          isActive: selectedLayer == RadarLayer.clouds,
-          onTap: () => onLayerChanged(RadarLayer.clouds),
-          onSurface: onSurface,
-          primary: primary,
-        ),
       ],
     );
   }
@@ -186,7 +177,7 @@ class _LayerItem extends StatelessWidget {
             color: isActive ? primary : onSurface.withValues(alpha: 0.7),
             size: 24,
           ),
-          const SizedBox(height: 8),
+          vGap(8),
           Text(
             label,
             style: context.font12Primary54MediumSpacing.copyWith(
@@ -306,7 +297,7 @@ class _TimeDisplay extends StatelessWidget {
           labelTitle ?? s.livePrediction,
           style: context.font12Primary54MediumSpacing,
         ),
-        const SizedBox(width: 4),
+        hGap(4),
         Text(
           timeText,
           style: context.font12Primary54MediumSpacing.copyWith(
@@ -315,7 +306,7 @@ class _TimeDisplay extends StatelessWidget {
           ),
         ),
         if (relativeTime != null) ...[
-          const SizedBox(width: 4),
+          hGap( 4),
           Text(
             '($relativeTime)',
             style: context.font12Primary54MediumSpacing.copyWith(
