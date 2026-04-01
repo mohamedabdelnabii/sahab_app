@@ -7,6 +7,7 @@ import 'package:sahab/features/weather/domain/entities/weather.dart';
 import 'package:sahab/generated/l10n.dart';
 
 import '../../../../core/helpers/extensions.dart';
+import '../../../../core/helpers/spacing.dart';
 import '../widgets/home/detail_card.dart';
 import '../widgets/home/hour_card.dart';
 import '../widgets/home/sunset_card.dart';
@@ -71,7 +72,7 @@ class ForecastDetailScreen extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
 
-                      const SizedBox(height: 16),
+                      vGap(16),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +88,7 @@ class ForecastDetailScreen extends StatelessWidget {
                             ),
                           ),
 
-                          const SizedBox(width: 12),
+                          hGap(12),
 
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +109,7 @@ class ForecastDetailScreen extends StatelessWidget {
                         ],
                       ),
 
-                      const SizedBox(height: 40),
+                      vGap(40),
 
                       Text(
                         s.hourlyForecast,
@@ -117,7 +118,7 @@ class ForecastDetailScreen extends StatelessWidget {
                         ).copyWith(letterSpacing: 2),
                       ),
 
-                      const SizedBox(height: 16),
+                      vGap(16),
 
                       SizedBox(
                         height: 110,
@@ -135,7 +136,7 @@ class ForecastDetailScreen extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(height: 32),
+                      vGap(32),
 
                       Row(
                         children: [
@@ -148,7 +149,7 @@ class ForecastDetailScreen extends StatelessWidget {
                             ),
                           ),
 
-                          const SizedBox(width: 12),
+                          hGap(12),
 
                           Expanded(
                             child: DetailCard(
@@ -161,11 +162,11 @@ class ForecastDetailScreen extends StatelessWidget {
                         ],
                       ),
 
-                      const SizedBox(height: 12),
+                      vGap(12),
 
                       SunsetCard(astro: day.astro),
 
-                      const SizedBox(height: 32),
+                      vGap(32),
                     ],
                   ),
                 ),
