@@ -101,12 +101,12 @@ class _AlertsScreenState extends State<AlertsScreen> {
             size: 80,
             color: labelColor.withValues(alpha: 0.24),
           ),
-          const SizedBox(height: 16),
+          vGap(16),
           Text(
             s.noActiveAlerts,
             style: context.font16PrimaryMedium.copyWith(color: labelColor),
           ),
-          const SizedBox(height: 8),
+          vGap(8),
           Text(
             'Everything seems calm in your area.',
             style: context.font14SecondaryRegular.copyWith(
@@ -131,12 +131,12 @@ class _AlertsScreenState extends State<AlertsScreen> {
               size: 60,
               color: AppColors.error.withValues(alpha: 0.5),
             ),
-            const SizedBox(height: 16),
+            vGap(16),
             Text(
               s.failedToFetchAlerts,
               style: context.font16PrimaryMedium.copyWith(color: labelColor),
             ),
-            const SizedBox(height: 8),
+            vGap(8),
             Text(
               message,
               style: context.font14SecondaryRegular.copyWith(
@@ -182,14 +182,14 @@ class _AlertsScreenState extends State<AlertsScreen> {
               Text(alert.event, style: context.font12Primary54MediumSpacing),
             ],
           ),
-          const SizedBox(height: 12),
+          vGap(12),
           Text(
             alert.headline,
             style: context.font16PrimaryMedium.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 8),
+          vGap(8),
           Text(
             alert.desc,
             style: context.font14SecondaryRegular,
@@ -197,7 +197,7 @@ class _AlertsScreenState extends State<AlertsScreen> {
             overflow: TextOverflow.ellipsis,
           ),
           if (alert.instruction.isNotEmpty) ...[
-            const SizedBox(height: 12),
+            vGap(12),
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -211,7 +211,7 @@ class _AlertsScreenState extends State<AlertsScreen> {
                     size: 16,
                     color: Colors.orangeAccent,
                   ),
-                  const SizedBox(width: 8),
+                  hGap(8),
                   Expanded(
                     child: Text(
                       alert.instruction,
