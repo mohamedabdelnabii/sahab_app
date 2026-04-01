@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sahab/core/helpers/extensions.dart';
 import 'package:sahab/core/theme/app_decorations.dart';
 import 'package:sahab/features/weather/domain/entities/weather.dart';
+import '../../../../../core/helpers/spacing.dart';
 import 'sun_arc_painter.dart';
 
 class SunsetCard extends StatelessWidget {
@@ -25,20 +26,20 @@ class SunsetCard extends StatelessWidget {
                 Row(
                   children: [
                     Icon(Icons.wb_twilight, size: 14, color: textSecondary),
-                    const SizedBox(width: 6),
+                    hGap(6),
                     Text(
                       'SUNSET',
                       style: context.font12Primary54MediumSpacing,
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                vGap(10),
                 Text(
                   astro.sunset,
                   textDirection: TextDirection.ltr,
                   style: context.font24PrimaryLight,
                 ),
-                const SizedBox(height: 4),
+                vGap(4),
                 Text(
                   'Sunrise: ${astro.sunrise}',
                   textDirection: TextDirection.ltr,
