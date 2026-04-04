@@ -16,12 +16,10 @@ import 'package:sahab/features/search/presentation/cubit/search_cubit.dart';
 import 'package:sahab/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:sahab/features/settings/domain/repositories/settings_repository.dart';
 import 'package:sahab/features/settings/presentation/cubit/settings_cubit.dart';
-import 'package:sahab/features/alerts/data/apis/alerts_api_services.dart';
-import 'package:sahab/features/alerts/data/datasources/alerts_remote_data_source.dart';
-import 'package:sahab/features/alerts/data/repositories/alerts_repository_impl.dart';
-import 'package:sahab/features/alerts/domain/repositories/alerts_repository.dart';
-import 'package:sahab/features/alerts/domain/usecases/get_alerts_use_case.dart';
-import 'package:sahab/features/alerts/presentation/cubit/alerts_cubit.dart';
+import 'package:sahab/features/alerts/presentation/cubit/alert_cubit.dart';
+import 'package:sahab/features/alerts/domain/services/alert_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sahab/features/radar/data/api/radar_api_service.dart';
 import 'package:sahab/features/radar/data/datasource/radar_remote_data_source.dart';
 import 'package:sahab/features/radar/data/repositories/radar_repository_impl.dart';
@@ -42,17 +40,17 @@ Future<void> setupGetIt() async {
   gitIt.registerLazySingleton<WeatherApiService>(
     () => WeatherApiService(gitIt()),
   );
-  gitIt.registerLazySingleton<AlertsApiServices>(
-    () => AlertsApiServices(gitIt()),
-  );
+  final prefs = await SharedPreferences.getInstance();
+  gitIt.registerLazySingleton<SharedPreferences>(() => prefs);
+  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  gitIt.registerLazySingleton<FlutterLocalNotificationsPlugin>(() => flutterLocalNotificationsPlugin);
 
   // Data sources
   gitIt.registerLazySingleton<WeatherRemoteDataSource>(
     () => WeatherRemoteDataSourceImpl(gitIt()),
   );
-  gitIt.registerLazySingleton<AlertsRemoteDataSource>(
-    () => AlertsRemoteDataSource(gitIt()),
-  );
+  // Alerts DI
+  gitIt.registerLazySingleton<AlertService>(() => AlertService(gitIt(), gitIt()));
 
   // Use cases
   gitIt.registerLazySingleton<GetWeatherUseCase>(
@@ -61,27 +59,23 @@ Future<void> setupGetIt() async {
   gitIt.registerLazySingleton<GetWeatherHistoryUseCase>(
     () => GetWeatherHistoryUseCase(gitIt()),
   );
-  gitIt.registerLazySingleton<GetAlertsUseCase>(
-    () => GetAlertsUseCase(gitIt()),
-  );
+
 
   // Repository
   gitIt.registerLazySingleton<WeatherRepository>(
     () => WeatherRepositoryImpl(gitIt()),
   );
-  gitIt.registerLazySingleton<AlertsRepository>(
-    () => AlertsRepositoryImpl(gitIt()),
-  );
+
 
   // Cubit
-  gitIt.registerFactory<WeatherCubit>(() => WeatherCubit(gitIt(), gitIt()));
+  gitIt.registerFactory<WeatherCubit>(() => WeatherCubit(gitIt(), gitIt(), gitIt()));
   gitIt.registerFactory<SearchCubit>(
     () => SearchCubit(gitIt(), gitIt(), gitIt()),
   );
   gitIt.registerLazySingleton<SettingsCubit>(
     () => SettingsCubit(gitIt<SettingsRepository>()),
   );
-  gitIt.registerFactory<AlertsCubit>(() => AlertsCubit(gitIt()));
+  gitIt.registerFactory<AlertCubit>(() => AlertCubit(gitIt()));
 
   //*-------------------------------------- Search Feature --------------------------------------*
   // API Service

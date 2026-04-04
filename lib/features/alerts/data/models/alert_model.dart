@@ -1,58 +1,55 @@
-import 'package:json_annotation/json_annotation.dart';
-import '../../domain/entities/alert.dart';
+import 'dart:convert';
 
-part 'alert_model.g.dart';
+enum AlertType { heat, cold, cloud, storm, humidity }
+enum AlertSeverity { low, medium, high }
 
-@JsonSerializable(createToJson: false)
 class AlertModel {
-  final String headline;
-  final String msgtype;
-  final String severity;
-  final String urgency;
-  final String areas;
-  final String category;
-  final String certainty;
-  final String event;
-  final String note;
-  final String effective;
-  final String expires;
-  final String desc;
-  final String instruction;
+  final String id;
+  final String title;
+  final String description;
+  final AlertType type;
+  final AlertSeverity severity;
+  final DateTime timestamp;
 
-  const AlertModel({
-    required this.headline,
-    required this.msgtype,
+  AlertModel({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.type,
     required this.severity,
-    required this.urgency,
-    required this.areas,
-    required this.category,
-    required this.certainty,
-    required this.event,
-    required this.note,
-    required this.effective,
-    required this.expires,
-    required this.desc,
-    required this.instruction,
+    required this.timestamp,
   });
 
-  factory AlertModel.fromJson(Map<String, dynamic> json) =>
-      _$AlertModelFromJson(json);
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'type': type.name,
+      'severity': severity.name,
+      'timestamp': timestamp.toIso8601String(),
+    };
+  }
 
-  Alert toEntity() {
-    return Alert(
-      headline: headline,
-      msgtype: msgtype,
-      severity: severity,
-      urgency: urgency,
-      areas: areas,
-      category: category,
-      certainty: certainty,
-      event: event,
-      note: note,
-      effective: effective,
-      expires: expires,
-      desc: desc,
-      instruction: instruction,
+  factory AlertModel.fromMap(Map<String, dynamic> map) {
+    return AlertModel(
+      id: map['id'] ?? '',
+      title: map['title'] ?? '',
+      description: map['description'] ?? '',
+      type: AlertType.values.firstWhere(
+        (e) => e.name == map['type'],
+        orElse: () => AlertType.heat,
+      ),
+      severity: AlertSeverity.values.firstWhere(
+        (e) => e.name == map['severity'],
+        orElse: () => AlertSeverity.low,
+      ),
+      timestamp: DateTime.tryParse(map['timestamp'] ?? '') ?? DateTime.now(),
     );
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory AlertModel.fromJson(String source) =>
+      AlertModel.fromMap(json.decode(source));
 }
