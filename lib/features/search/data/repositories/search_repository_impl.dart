@@ -3,6 +3,7 @@ import '../../domain/entities/location_suggestion.dart';
 import '../../domain/repositories/search_repository.dart';
 import '../../../../core/helpers/shared_pref_helper.dart';
 import '../../../../core/networking/api_error_handler.dart';
+import '../../../../core/networking/api_constants.dart';
 import '../api/search_api_service.dart';
 
 /// Implementation of SearchRepository
@@ -15,7 +16,7 @@ class SearchRepositoryImpl implements SearchRepository {
   @override
   Future<ApiResult<List<LocationSuggestion>>> searchLocations(String query) async {
     try {
-      final response = await _apiService.searchLocations(query);
+      final response = await _apiService.searchLocations(ApiConstants.weatherApiKey, query);
       final suggestions = response.map((model) => model.toEntity()).toList();
       return ApiResult.success(suggestions);
     } catch (error) {

@@ -11,7 +11,9 @@ part of 'search_api_service.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main
 
 class _SearchApiService implements SearchApiService {
-  _SearchApiService(this._dio, {this.baseUrl, this.errorLogger});
+  _SearchApiService(this._dio, {this.baseUrl, this.errorLogger}) {
+    baseUrl ??= 'https://api.weatherapi.com/v1/';
+  }
 
   final Dio _dio;
 
@@ -20,9 +22,12 @@ class _SearchApiService implements SearchApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<LocationSuggestionModel>> searchLocations(String query) async {
+  Future<List<LocationSuggestionModel>> searchLocations(
+    String apiKey,
+    String query,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'q': query};
+    final queryParameters = <String, dynamic>{r'key': apiKey, r'q': query};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<LocationSuggestionModel>>(
