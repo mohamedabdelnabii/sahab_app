@@ -68,7 +68,7 @@ class _RadarScreenContentState extends State<RadarScreenContent> {
     if (totalFrames <= 1) return;
 
     while (_isPlaying && mounted) {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await Future.delayed(const Duration(milliseconds: 2000));
       if (!_isPlaying || !mounted) break;
 
       setState(() {

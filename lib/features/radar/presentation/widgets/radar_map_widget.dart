@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:sahab/core/helpers/spacing.dart';
 import 'package:sahab/core/theme/app_decorations.dart';
 import 'package:sahab/features/radar/domain/entities/radar_frame.dart';
+import 'cached_tile_provider.dart';
 import 'radar_controls_widget.dart';
 
 class RadarMapWidget extends StatelessWidget {
@@ -42,6 +44,7 @@ class RadarMapWidget extends StatelessWidget {
       children: [
         // Base Map Layer
           TileLayer(
+            tileProvider: CachedTileProvider(),
             urlTemplate: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
             subdomains: const ['a', 'b', 'c', 'd'],
           ),
@@ -49,7 +52,9 @@ class RadarMapWidget extends StatelessWidget {
         // Weather Data Overlay Layer
         if (host != null && currentFrame != null)
           TileLayer(
-            urlTemplate: '$host${currentFrame!.path}/256/{z}/{x}/{y}/ ? 1 : 2}/1_1.png',
+            tileProvider: CachedTileProvider(),
+            urlTemplate: '$host${currentFrame!.path}/256/{z}/{x}/{y}/${selectedLayer == RadarLayer.rain ? 2 : 1}/1_1.png',
+            panBuffer: 0,
           ),
 
         // City Identification Marker
@@ -94,8 +99,8 @@ class RadarMapWidget extends StatelessWidget {
                           if (temp != null) ...[
                             hGap(6),
                             Container(
-                              width: 1,
-                              height: 12,
+                              width: 1.w,
+                              height: 12.h,
                               color: Colors.white24,
                             ),
                             hGap(6),
@@ -118,15 +123,15 @@ class RadarMapWidget extends StatelessWidget {
                     children: [
                       _PulsingCircle(color: primaryColor),
                       Container(
-                        width: 12,
-                        height: 12,
+                        width: 12.w,
+                        height: 12.h,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
                               color: primaryColor.withValues(alpha: 0.5),
-                              blurRadius: 10,
+                              blurRadius: 10.r,
                             ),
                           ],
                         ),
