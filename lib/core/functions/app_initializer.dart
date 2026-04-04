@@ -7,6 +7,7 @@ import 'package:sahab/core/di/injection_container.dart';
 import '../helpers/app_constants.dart';
 import '../helpers/custom_bloc_observer.dart';
 import '../helpers/shared_pref_helper.dart';
+import 'package:sahab/features/alerts/domain/services/alert_service.dart';
 import '../routes/app_router.dart';
 
 
@@ -15,6 +16,7 @@ class AppInitializer {
     WidgetsFlutterBinding.ensureInitialized();
     await ScreenUtil.ensureScreenSize();
     await setupGetIt();
+    await gitIt<AlertService>().initNotifications();
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     Bloc.observer = CustomBlocObserver();
 

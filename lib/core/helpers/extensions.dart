@@ -39,45 +39,32 @@ extension MapExtension<K, V> on Map<K, V>? {
 }
 
 extension ThemeExtension on BuildContext {
-  bool get isDarkMode =>
-      Theme
-          .of(this)
-          .brightness == Brightness.dark;
+  bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
 
   // Colors
   Color get primaryColor => AppColors.primary(this);
-
   Color get onSurfaceColor => AppColors.onSurface(this);
-
   Color get labelColor => AppColors.label(this);
-
   Color get descriptionColor => AppColors.description(this);
 
   // Typography
   TextStyle get font24PrimaryBold => AppTextStyles.font24PrimaryBold(this);
-
   TextStyle get font20PrimaryBold => AppTextStyles.font20PrimaryBold(this);
-
   TextStyle get font18PrimaryBold => AppTextStyles.font18PrimaryBold(this);
 
   TextStyle get font16PrimaryMedium => AppTextStyles.font16PrimaryMedium(this);
-
   TextStyle get font14PrimaryMedium => AppTextStyles.font14PrimaryMedium(this);
 
   TextStyle get font14SecondaryRegular =>
       AppTextStyles.font14SecondaryRegular(this);
-
   TextStyle get font12SecondaryMedium =>
       AppTextStyles.font12SecondaryMedium(this);
 
   TextStyle get font16AccentBold => AppTextStyles.font16AccentBold(this);
-
   TextStyle get font14AccentBold => AppTextStyles.font14AccentBold(this);
-
   TextStyle get font12AccentBold => AppTextStyles.font12AccentBold(this);
 
   TextStyle get font14GlassMedium => AppTextStyles.font14GlassMedium(this);
-
   TextStyle get font12GlassRegular => AppTextStyles.font12GlassRegular(this);
 
   TextStyle get font100PrimaryExtraLight =>
@@ -101,7 +88,4 @@ extension ThemeExtension on BuildContext {
       AppTextStyles.font12Primary60Regular(this);
 
   TextStyle get font14ErrorMedium => AppTextStyles.font14ErrorMedium(this);
-
-  TextStyle get font22WhiteRegular =>
-      AppTextStyles.font22WhiteRegular(this);
 }

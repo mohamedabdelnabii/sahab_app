@@ -122,20 +122,14 @@ class HtmlService {
       "b": Style(fontWeight: FontWeight.bold),
       "em": Style(fontStyle: FontStyle.italic),
       "i": Style(fontStyle: FontStyle.italic),
-      "a": Style(
-        color: primary,
-        textDecoration: TextDecoration.underline,
-      ),
+      "a": Style(color: primary, textDecoration: TextDecoration.underline),
       "div": Style(margin: Margins.zero),
       "span": Style(margin: Margins.zero),
       "blockquote": Style(
         margin: Margins.only(left: 16, bottom: 8),
         padding: HtmlPaddings.only(left: 8),
         border: Border(
-          left: BorderSide(
-            color: onSurface.withValues(alpha: 0.1),
-            width: 2,
-          ),
+          left: BorderSide(color: onSurface.withValues(alpha: 0.1), width: 2),
         ),
         backgroundColor: onSurface.withValues(alpha: 0.05),
       ),
@@ -157,7 +151,10 @@ class HtmlService {
   }
 
   /// Get HTML styles with custom font size
-  static Map<String, Style> getHtmlStylesWithFontSize(BuildContext context, double fontSize) {
+  static Map<String, Style> getHtmlStylesWithFontSize(
+    BuildContext context,
+    double fontSize,
+  ) {
     final styles = _getHtmlStyles(context);
 
     // Update font sizes proportionally
@@ -175,10 +172,17 @@ class HtmlService {
   }
 
   /// Get HTML widget with custom font size
-  static Widget getHtmlWidgetWithFontSize(BuildContext context, String htmlData, double fontSize) {
+  static Widget getHtmlWidgetWithFontSize(
+    BuildContext context,
+    String htmlData,
+    double fontSize,
+  ) {
     // Remove "More products" links before displaying
     String cleanedHtml = _removeMoreProductsLinks(htmlData);
-    return Html(data: cleanedHtml, style: getHtmlStylesWithFontSize(context, fontSize));
+    return Html(
+      data: cleanedHtml,
+      style: getHtmlStylesWithFontSize(context, fontSize),
+    );
   }
 
   /// Check if string contains HTML tags

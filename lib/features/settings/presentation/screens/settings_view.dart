@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sahab/core/helpers/extensions.dart';
 import 'package:sahab/core/theme/app_decorations.dart';
@@ -31,20 +32,20 @@ class SettingsView extends StatelessWidget {
               return ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 children: [
-                  vGap(20),
+                  const SizedBox(height: 20),
                   Text(
                     s.settings,
                     style: context.font24PrimaryBold,
                     textAlign: TextAlign.center,
                   ),
-                  vGap(30),
+                  const SizedBox(height: 30),
                   _buildSectionTitle(context, s.location),
                   _buildSettingsCard(context, [
                     BlocBuilder<WeatherCubit, WeatherState>(
                       builder: (context, weatherState) {
                         final cityName = weatherState.maybeWhen(
                           success: (w) => w.location.name,
-                          orElse: () => s.loading,
+                          orElse: () => 'Loading...',
                         );
                         return _buildSettingTile(
                           context,
@@ -56,7 +57,7 @@ class SettingsView extends StatelessWidget {
                       },
                     ),
                   ]),
-                  vGap(25),
+                  const SizedBox(height: 25),
                   _buildSectionTitle(context, s.units),
                   _buildSettingsCard(context, [
                     _buildSwitchTile(
@@ -82,7 +83,7 @@ class SettingsView extends StatelessWidget {
                       () {},
                     ),
                   ]),
-                  vGap(25),
+                  const SizedBox(height: 25),
                   _buildSectionTitle(context, s.preferences),
                   _buildSettingsCard(context, [
                     _buildSettingTile(
@@ -117,7 +118,7 @@ class SettingsView extends StatelessWidget {
                       (val) => cubit.toggleTheme(),
                     ),
                   ]),
-                  vGap(25),
+                  const SizedBox(height: 25),
                   _buildSectionTitle(context, s.about),
                   _buildSettingsCard(context, [
                     _buildSettingTile(
@@ -129,7 +130,7 @@ class SettingsView extends StatelessWidget {
                     ),
                     Divider(
                       color: context.onSurfaceColor.withValues(alpha: 0.1),
-                      height: 1,
+                      height: 1.h,
                     ),
                     _buildSettingTile(
                       context,
@@ -219,7 +220,7 @@ class SettingsView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(trailing, style: TextStyle(color: labelColor)),
-          hGap(8),
+          const SizedBox(width: 8),
           Icon(
             Icons.chevron_right,
             color: onSurface.withValues(alpha: 0.24),
