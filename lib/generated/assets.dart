@@ -24,9 +24,7 @@ class $AssetsPngGen {
   final AssetGenImage appIcon = const AssetGenImage(
     'assets/images/png/app_icon.png',
   );
-  final AssetGenImage splash = const AssetGenImage(
-    'assets/images/png/splash.png',
-  );
+  final AssetGenImage img = const AssetGenImage('assets/images/png/splash.png');
   final AssetGenImage welcome = const AssetGenImage(
     'assets/images/png/welcome.png',
   );
