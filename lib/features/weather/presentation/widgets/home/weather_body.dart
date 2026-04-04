@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:sahab/core/helpers/extensions.dart';
@@ -17,8 +18,14 @@ import 'sunset_card.dart';
 class WeatherBody extends StatelessWidget {
   final Weather weather;
   final bool isCelsius;
+  final bool showTopBar;
 
-  const WeatherBody({super.key, required this.weather, this.isCelsius = true});
+  const WeatherBody({
+    super.key,
+    required this.weather,
+    this.isCelsius = true,
+    this.showTopBar = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,34 +58,53 @@ class WeatherBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // ── Top Bar ─────────────────────────────────────
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
-                child: Row(
-                  children: [
-                    Icon(Icons.cloud_outlined, color: textSecondaryColor, size: 20),
-                    hGap(8),
-                    Text(s.sahab, style: context.font14PrimarySemiBoldSpacing),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () => context.push(SearchView.routeName),
-                      icon: Icon(Icons.search, color: textSecondaryColor, size: 22),
-                    ),
-                    hGap(8),
-                    CircleAvatar(
-                      radius: 18,
-                      backgroundColor: textBodyColor.withValues(alpha: 0.1),
-                      child: Icon(Icons.person, color: textSecondaryColor, size: 18),
-                    ),
-                  ],
+              if (showTopBar) ...[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.cloud_outlined,
+                        color: textSecondaryColor,
+                        size: 20,
+                      ),
+                      hGap(8),
+                      Text(
+                        s.sahab,
+                        style: context.font14PrimarySemiBoldSpacing,
+                      ),
+                      const Spacer(),
+                      // IconButton(
+                      //   onPressed: () => context.push(SearchView.routeName),
+                      //   icon: Icon(Icons.search, color: textSecondaryColor, size: 22),
+                      // ),
+                      hGap(8),
+                      CircleAvatar(
+                        radius: 18,
+                        backgroundColor: textBodyColor.withValues(alpha: 0.1),
+                        child: IconButton(
+                          onPressed: () => context.push(SearchView.routeName),
+                          icon: Icon(
+                            Icons.home,
+                            color: textSecondaryColor,
+                            size: 22.r,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              vGap(24),
+                vGap(24),
+              ],
 
-              // ── City Name ──────────────────── ABOVE اليوم
+              // City Name
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  [loc.name, loc.region].where((s) => s.isNotEmpty).join(', ').toUpperCase(),
+                  [
+                    loc.name,
+                    loc.region,
+                  ].where((s) => s.isNotEmpty).join(', ').toUpperCase(),
                   style: context.font14PrimarySemiBoldSpacing.copyWith(
                     color: textSecondaryColor,
                   ),
@@ -87,7 +113,7 @@ class WeatherBody extends StatelessWidget {
               ),
               vGap(6),
 
-              // ── Formatted Date ──────────────── ABOVE اليوم
+              // Formatted Date
               SizedBox(
                 width: double.infinity,
                 child: Text(
@@ -99,7 +125,7 @@ class WeatherBody extends StatelessWidget {
               ),
               vGap(16),
 
-              // ── Date Tab (اليوم) ─────────────────────────────
+              // Date Tab
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -108,19 +134,23 @@ class WeatherBody extends StatelessWidget {
                     _DateTab(
                       label: s.today,
                       isSelected: !isHistoryView,
-                      onTap: () => context.read<WeatherCubit>().getWeather('Tanta'),
+                      onTap: () =>
+                          context.read<WeatherCubit>().getWeather('Tanta'),
                     ),
                   ],
                 ),
               ),
               vGap(24),
 
-              // ── Historical Badge ───────────────────────────────
+              // Historical Badge
               if (isHistoryView)
                 Center(
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 16),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.orangeAccent.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(20),
@@ -131,7 +161,11 @@ class WeatherBody extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.history, color: Colors.orangeAccent, size: 14),
+                        const Icon(
+                          Icons.history,
+                          color: Colors.orangeAccent,
+                          size: 14,
+                        ),
                         hGap(6),
                         Text(
                           'HISTORICAL DATA',
@@ -145,7 +179,7 @@ class WeatherBody extends StatelessWidget {
                   ),
                 ),
 
-              // ── Main Temperature ─────────────────────────────
+              // Main Temperature
               Text(
                 '${(isCelsius ? cur.tempC : cur.tempF).round()}°',
                 style: context.font100PrimaryExtraLight,
@@ -153,7 +187,7 @@ class WeatherBody extends StatelessWidget {
               ),
               vGap(8),
 
-              // ── Condition ────────────────────────────────────
+              // Condition
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -173,7 +207,7 @@ class WeatherBody extends StatelessWidget {
               ),
               vGap(32),
 
-              // ── Hourly Forecast ──────────────────────────────
+              // Hourly Forecast
               if (hours.isNotEmpty) ...[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -182,11 +216,15 @@ class WeatherBody extends StatelessWidget {
                     children: [
                       Text(
                         s.hourlyForecast,
-                        style: context.font14PrimarySemiBoldSpacing.copyWith(letterSpacing: 1),
+                        style: context.font14PrimarySemiBoldSpacing.copyWith(
+                          letterSpacing: 1,
+                        ),
                       ),
                       Text(
                         s.next_24_hours,
-                        style: context.font12Primary54MediumSpacing.copyWith(letterSpacing: 0),
+                        style: context.font12Primary54MediumSpacing.copyWith(
+                          letterSpacing: 0,
+                        ),
                       ),
                     ],
                   ),
@@ -198,13 +236,22 @@ class WeatherBody extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     itemCount: hours.length,
-                    separatorBuilder: (context, index) => const SizedBox(width: 8),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: 8),
                     itemBuilder: (context, i) {
                       final hour = hours[i];
                       bool isCurrentlyThisHour = false;
                       if (!isHistoryView) {
-                        final currentHourStr = loc.localtime.split(' ').last.split(':').first;
-                        final hourStr = hour.time.split(' ').last.split(':').first;
+                        final currentHourStr = loc.localtime
+                            .split(' ')
+                            .last
+                            .split(':')
+                            .first;
+                        final hourStr = hour.time
+                            .split(' ')
+                            .last
+                            .split(':')
+                            .first;
                         isCurrentlyThisHour = hourStr == currentHourStr;
                       }
                       return HourCard(
@@ -218,26 +265,31 @@ class WeatherBody extends StatelessWidget {
                 vGap(24),
               ],
 
-              // ── 7-Day Forecast Title ──────────────────────────────
+              // 7-Day Forecast Title
               if (weather.forecastDays.length > 1)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
                   child: Text(
                     s.Seven_DAY_FORECAST,
-                    style: context.font14PrimarySemiBoldSpacing.copyWith(letterSpacing: 2),
+                    style: context.font14PrimarySemiBoldSpacing.copyWith(
+                      letterSpacing: 2,
+                    ),
                   ),
                 ),
             ],
           ),
         ),
 
-        // ── 7-Day Forecast List ──────────────────────────────
+        // 7-Day Forecast List
         if (weather.forecastDays.length > 1)
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (context, i) => Padding(
+                (context, i) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: ForecastDayCard(
                     day: weather.forecastDays[i],
@@ -264,7 +316,8 @@ class WeatherBody extends StatelessWidget {
                         child: DetailCard(
                           icon: Icons.thermostat,
                           label: s.feelsLike,
-                          value: '${(isCelsius ? cur.feelslikeC : cur.feelslikeF).round()}°',
+                          value:
+                              '${(isCelsius ? cur.feelslikeC : cur.feelslikeF).round()}°',
                           subtitle: _feelsLikeDesc(cur, isCelsius, s),
                         ),
                       ),
@@ -275,7 +328,9 @@ class WeatherBody extends StatelessWidget {
                           label: s.humidity,
                           value: '${cur.humidity}%',
                           subtitle: s.dewPoint(
-                            (isCelsius ? cur.dewpointC : cur.dewpointF).round().toString(),
+                            (isCelsius ? cur.dewpointC : cur.dewpointF)
+                                .round()
+                                .toString(),
                           ),
                         ),
                       ),
@@ -355,7 +410,7 @@ class WeatherBody extends StatelessWidget {
   static String _feelsLikeDesc(CurrentWeather cur, bool isCelsius, S s) {
     final diff =
         (isCelsius ? cur.feelslikeC : cur.feelslikeF) -
-            (isCelsius ? cur.tempC : cur.tempF);
+        (isCelsius ? cur.tempC : cur.tempF);
     if (diff > 2) return s.humidityMakingWarmer;
     if (diff < -2) return s.windMakingColder;
     return s.similarToActual;
@@ -408,7 +463,9 @@ class _DateTab extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? activeColor.withValues(alpha: 0.1) : Colors.transparent,
+          color: isSelected
+              ? activeColor.withValues(alpha: 0.1)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(25),
           border: Border.all(
             color: isSelected

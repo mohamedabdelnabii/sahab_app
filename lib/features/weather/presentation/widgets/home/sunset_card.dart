@@ -3,6 +3,7 @@ import 'package:sahab/core/helpers/extensions.dart';
 import 'package:sahab/core/theme/app_decorations.dart';
 import 'package:sahab/features/weather/domain/entities/weather.dart';
 import '../../../../../core/helpers/spacing.dart';
+import '../../../../../generated/l10n.dart';
 import 'sun_arc_painter.dart';
 
 class SunsetCard extends StatelessWidget {
@@ -13,6 +14,7 @@ class SunsetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textSecondary = context.labelColor;
+    final s = S.of(context);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -28,7 +30,7 @@ class SunsetCard extends StatelessWidget {
                     Icon(Icons.wb_twilight, size: 14, color: textSecondary),
                     hGap(6),
                     Text(
-                      'SUNSET',
+                      s.sunset,
                       style: context.font12Primary54MediumSpacing,
                     ),
                   ],
@@ -41,7 +43,7 @@ class SunsetCard extends StatelessWidget {
                 ),
                 vGap(4),
                 Text(
-                  'Sunrise: ${astro.sunrise}',
+                  '${s.sunrise}: ${astro.sunrise}',
                   textDirection: TextDirection.ltr,
                   style: context.font12Primary60Regular,
                 ),

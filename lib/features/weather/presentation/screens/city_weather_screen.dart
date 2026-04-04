@@ -60,7 +60,7 @@ class CityWeatherScreen extends StatelessWidget {
                 return state.when(
                   initial: () => const SizedBox(),
                   loading: () => const WeatherLoading(),
-                  success: (weather) => WeatherBody(weather: weather),
+                  success: (weather) => WeatherBody(weather: weather, showTopBar: false),
                   error: (error) => Center(
                     child: Padding(
                       padding: const EdgeInsets.all(24),
