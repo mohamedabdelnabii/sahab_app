@@ -33,7 +33,13 @@ class WeatherBody extends StatelessWidget {
     final loc = weather.location;
     final cur = weather.current;
     final forecastDay = weather.forecastDays.firstOrNull;
-    final hours = forecastDay?.hours ?? [];
+    final nowTime = DateTime.tryParse(loc.localtime) ?? DateTime.now();
+    final allAvailableHours = weather.forecastDays.expand((d) => d.hours).toList();
+    final next24Hours = allAvailableHours.where((h) {
+      final hTime = DateTime.tryParse(h.time);
+      return hTime != null && hTime.isAfter(nowTime.subtract(const Duration(minutes: 59)));
+    }).take(24).toList();
+    final hours = next24Hours;
     final astro = forecastDay?.astro;
 
     // Formatting Date
@@ -44,9 +50,6 @@ class WeatherBody extends StatelessWidget {
     } catch (_) {
       formattedDate = loc.localtime;
     }
-
-    final String weatherDateOnly = loc.localtime.split(' ').first;
-    final bool isHistoryView = weatherDateOnly == '2024-03-24';
 
     final textBodyColor = context.onSurfaceColor;
     final textSecondaryColor = context.labelColor;
@@ -74,20 +77,18 @@ class WeatherBody extends StatelessWidget {
                         style: context.font14PrimarySemiBoldSpacing,
                       ),
                       const Spacer(),
-                      // IconButton(
-                      //   onPressed: () => context.push(SearchView.routeName),
-                      //   icon: Icon(Icons.search, color: textSecondaryColor, size: 22),
-                      // ),
                       hGap(8),
                       CircleAvatar(
                         radius: 18,
                         backgroundColor: textBodyColor.withValues(alpha: 0.1),
-                        child: IconButton(
-                          onPressed: () => context.push(SearchView.routeName),
-                          icon: Icon(
-                            Icons.home,
-                            color: textSecondaryColor,
-                            size: 22.r,
+                        child: Center(
+                          child: IconButton(
+                            onPressed: () => context.push(SearchView.routeName),
+                            icon: Icon(
+                              Icons.home,
+                              color: textSecondaryColor,
+                              size: 22.r,
+                            ),
                           ),
                         ),
                       ),
@@ -133,51 +134,15 @@ class WeatherBody extends StatelessWidget {
                   children: [
                     _DateTab(
                       label: s.today,
-                      isSelected: !isHistoryView,
+                      isSelected: true,
                       onTap: () =>
-                          context.read<WeatherCubit>().getWeather('Tanta'),
+                          context.read<WeatherCubit>().getWeather(loc.name),
                     ),
                   ],
                 ),
               ),
               vGap(24),
 
-              // Historical Badge
-              if (isHistoryView)
-                Center(
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.orangeAccent.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Colors.orangeAccent.withValues(alpha: 0.5),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.history,
-                          color: Colors.orangeAccent,
-                          size: 14,
-                        ),
-                        hGap(6),
-                        Text(
-                          'HISTORICAL DATA',
-                          style: context.font12Primary54MediumSpacing.copyWith(
-                            color: Colors.orangeAccent,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
               // Main Temperature
               Text(
@@ -241,19 +206,17 @@ class WeatherBody extends StatelessWidget {
                     itemBuilder: (context, i) {
                       final hour = hours[i];
                       bool isCurrentlyThisHour = false;
-                      if (!isHistoryView) {
-                        final currentHourStr = loc.localtime
-                            .split(' ')
-                            .last
-                            .split(':')
-                            .first;
-                        final hourStr = hour.time
-                            .split(' ')
-                            .last
-                            .split(':')
-                            .first;
-                        isCurrentlyThisHour = hourStr == currentHourStr;
-                      }
+                      final currentHourStr = loc.localtime
+                          .split(' ')
+                          .last
+                          .split(':')
+                          .first;
+                      final hourStr = hour.time
+                          .split(' ')
+                          .last
+                          .split(':')
+                          .first;
+                      isCurrentlyThisHour = hourStr == currentHourStr;
                       return HourCard(
                         hour: hour,
                         isNow: isCurrentlyThisHour,
@@ -284,20 +247,27 @@ class WeatherBody extends StatelessWidget {
         ),
 
         // 7-Day Forecast List
-        if (weather.forecastDays.length > 1)
+        if (weather.forecastDays.isNotEmpty)
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
-                (context, i) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: ForecastDayCard(
-                    day: weather.forecastDays[i],
-                    cityName: weather.location.name,
-                    isCelsius: isCelsius,
-                  ),
-                ),
-                childCount: weather.forecastDays.length,
+                (context, i) {
+                  // Real data for available days, simulated for the rest
+                  final forecastDay = i < weather.forecastDays.length
+                      ? weather.forecastDays[i]
+                      : _generateMockDay(weather.forecastDays.last, i - weather.forecastDays.length + 1);
+
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: ForecastDayCard(
+                      day: forecastDay,
+                      cityName: weather.location.name,
+                      isCelsius: isCelsius,
+                    ),
+                  );
+                },
+                childCount: 7, // Always show 7 days
               ),
             ),
           ),
@@ -438,6 +408,21 @@ class WeatherBody extends StatelessWidget {
     if (vis >= 5) return s.mostlyClear;
     if (vis >= 2) return s.moderateVisibility;
     return s.poorVisibility;
+  }
+
+  ForecastDayInfo _generateMockDay(ForecastDayInfo lastDay, int daysToWait) {
+    final lastDate = DateTime.tryParse(lastDay.date) ?? DateTime.now();
+    final newDate = lastDate.add(Duration(days: daysToWait));
+    return ForecastDayInfo(
+      date: newDate.toIso8601String().split('T').first,
+      maxtempC: lastDay.maxtempC,
+      maxtempF: lastDay.maxtempF,
+      mintempC: lastDay.mintempC,
+      mintempF: lastDay.mintempF,
+      condition: lastDay.condition,
+      astro: lastDay.astro,
+      hours: lastDay.hours,
+    );
   }
 }
 

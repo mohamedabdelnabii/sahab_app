@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:sahab/core/helpers/extensions.dart';
 import 'package:sahab/features/weather/domain/entities/weather.dart';
 import 'package:sahab/features/weather/presentation/screens/forecast_detail_screen.dart';
-
+import 'package:sahab/generated/l10n.dart';
 import '../../../../../core/helpers/spacing.dart';
 
 class ForecastDayCard extends StatelessWidget {
@@ -42,7 +42,7 @@ class ForecastDayCard extends StatelessWidget {
             Expanded(
               flex: 3,
               child: Text(
-                isToday ? 'Today' : dayName,
+                isToday ? S.of(context).today : dayName,
                 style: context.font14PrimarySemiBoldSpacing.copyWith(letterSpacing: 1),
               ),
             ),
@@ -67,7 +67,6 @@ class ForecastDayCard extends StatelessWidget {
                     child: Text(
                       day.condition.text,
                       style: context.font12Primary70Medium,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
