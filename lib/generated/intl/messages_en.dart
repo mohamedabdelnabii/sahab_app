@@ -149,6 +149,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sunsetTime": m7,
     "temp": MessageLookupByLibrary.simpleMessage("Temp"),
     "today": MessageLookupByLibrary.simpleMessage("Today"),
+    "typeToStart": MessageLookupByLibrary.simpleMessage(
+      "Type to start searching ....",
+    ),
     "units": MessageLookupByLibrary.simpleMessage("Units"),
     "unknownError": MessageLookupByLibrary.simpleMessage(
       "An unknown error occurred",

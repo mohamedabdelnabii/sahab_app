@@ -698,6 +698,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Type to start searching ....`
+  String get typeToStart {
+    return Intl.message(
+      'Type to start searching ....',
+      name: 'typeToStart',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

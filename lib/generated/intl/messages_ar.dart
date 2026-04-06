@@ -150,6 +150,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sunsetTime": m7,
     "temp": MessageLookupByLibrary.simpleMessage("درحه الحراره"),
     "today": MessageLookupByLibrary.simpleMessage("اليوم"),
+    "typeToStart": MessageLookupByLibrary.simpleMessage("اكتب لبدأ البحث ...."),
     "units": MessageLookupByLibrary.simpleMessage("الوحدات"),
     "unknownError": MessageLookupByLibrary.simpleMessage("حدث خطأ غير معروف"),
     "useFahrenheit": MessageLookupByLibrary.simpleMessage("استخدم فهرنهايت"),

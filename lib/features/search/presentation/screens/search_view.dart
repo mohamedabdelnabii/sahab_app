@@ -91,7 +91,7 @@ class _SearchViewState extends State<SearchView> {
                                 if (cities.isEmpty) {
                                   return Center(
                                     child: Text(
-                                      'Type to start searching...',
+                                      s.typeToStart,
                                       style: TextStyle(
                                         color: context.labelColor,
                                       ),
