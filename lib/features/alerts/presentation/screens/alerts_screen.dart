@@ -42,45 +42,58 @@ class _AlertsScreenState extends State<AlertsScreen> {
       ),
       body: Container(
         decoration: AppDecorations.getMainGradient(context),
-        child: BlocBuilder<AlertCubit, AlertState>(
-          builder: (context, state) {
-            if (state is AlertLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is AlertLoaded) {
-              if (state.alerts.isEmpty) {
-                return Center(
-                  child: Text(
-                    S.of(context).noActiveAlerts,
-                    style: TextStyle(
-                      color: context.onSurfaceColor,
-                      fontSize: 18,
-                    ),
+        child: RefreshIndicator(
+          onRefresh: () => context.read<AlertCubit>().loadAlerts(),
+          child: BlocBuilder<AlertCubit, AlertState>(
+            builder: (context, state) {
+              if (state is AlertLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is AlertLoaded) {
+                if (state.alerts.isEmpty) {
+                  return ListView(
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.4),
+                      Center(
+                        child: Text(
+                          S.of(context).noActiveAlerts,
+                          style: TextStyle(
+                            color: context.onSurfaceColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                return ListView.builder(
+                  padding: const EdgeInsets.only(
+                    top: 130,
+                    bottom: 20,
+                    left: 16,
+                    right: 16,
                   ),
+                  itemCount: state.alerts.length,
+                  itemBuilder: (context, index) {
+                    final alert = state.alerts[index];
+                    return _buildAlertCard(context, alert);
+                  },
+                );
+              } else if (state is AlertError) {
+                return ListView(
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.4),
+                    Center(
+                      child: Text(
+                        state.message,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ],
                 );
               }
-              return ListView.builder(
-                padding: const EdgeInsets.only(
-                  top: 130,
-                  bottom: 20,
-                  left: 16,
-                  right: 16,
-                ),
-                itemCount: state.alerts.length,
-                itemBuilder: (context, index) {
-                  final alert = state.alerts[index];
-                  return _buildAlertCard(context, alert);
-                },
-              );
-            } else if (state is AlertError) {
-              return Center(
-                child: Text(
-                  state.message,
-                  style: const TextStyle(color: Colors.red),
-                ),
-              );
-            }
-            return const SizedBox();
-          },
+              return const SizedBox();
+            },
+          ),
         ),
       ),
     );
