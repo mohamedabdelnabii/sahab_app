@@ -87,5 +87,6 @@
   "hoursAgo": "منذ {count} ساعة",
   "daysAgo": "منذ {count} يوم",
   "failedToLoadRadarData": "فشل تحميل بيانات الرادار",
-  "typeToStart" : "اكتب لبدأ البحث ...."
+  "typeToStart" : "اكتب لبدأ البحث ....",
+  "englishSupTitle" : "العربيه"
 }

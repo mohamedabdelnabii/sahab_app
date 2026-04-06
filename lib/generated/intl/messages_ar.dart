@@ -61,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "disabled": MessageLookupByLibrary.simpleMessage("معطل"),
     "enabled": MessageLookupByLibrary.simpleMessage("مفعل"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
+    "englishSupTitle": MessageLookupByLibrary.simpleMessage("العربيه"),
     "experienceAtmosphere": MessageLookupByLibrary.simpleMessage(
       "استمتع بالطقس في\nإضاءة جديدة تماماً",
     ),

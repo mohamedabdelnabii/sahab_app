@@ -90,7 +90,7 @@ class SettingsView extends StatelessWidget {
                       context,
                       Icons.language_outlined,
                       s.language,
-                      state.language,
+                      s.englishSupTitle,
                       () => context.push(LanguageView.routeName),
                     ),
                     Divider(

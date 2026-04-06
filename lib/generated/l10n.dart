@@ -708,6 +708,11 @@ class S {
       args: [],
     );
   }
+
+  /// `English`
+  String get englishSupTitle {
+    return Intl.message('English', name: 'englishSupTitle', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -63,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "disabled": MessageLookupByLibrary.simpleMessage("Disabled"),
     "enabled": MessageLookupByLibrary.simpleMessage("Enabled"),
     "english": MessageLookupByLibrary.simpleMessage("English"),
+    "englishSupTitle": MessageLookupByLibrary.simpleMessage("English"),
     "experienceAtmosphere": MessageLookupByLibrary.simpleMessage(
       "Experience the atmosphere in a\nwhole new light",
     ),

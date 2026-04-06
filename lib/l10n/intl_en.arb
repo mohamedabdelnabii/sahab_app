@@ -88,5 +88,7 @@
   "hoursAgo": "{count} hr ago",
   "daysAgo": "{count} days ago",
   "failedToLoadRadarData": "Failed to load radar data",
-  "typeToStart" : "Type to start searching ...."
+  "typeToStart" : "Type to start searching ....",
+  "englishSupTitle" : "English"
+
 }
